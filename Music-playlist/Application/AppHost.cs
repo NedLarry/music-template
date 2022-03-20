@@ -16,6 +16,7 @@ namespace Music_playlist.Application
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddSingleton<App>();
             serviceCollection.AddTransient<MusicPlayer>();
+            serviceCollection.AddTransient<PlaylistMaker>();
 
             return serviceCollection.BuildServiceProvider();
         }
