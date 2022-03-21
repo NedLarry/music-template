@@ -13,11 +13,13 @@ namespace Music_playlist.Application
 
         StringBuilder menuBuilder  = new StringBuilder();
         private readonly MusicPlayer _musicPlayer;
+        private readonly PlaylistMaker _playlistMaker;
 
-        public App(MusicPlayer _musicPlayer)
+        public App(MusicPlayer _musicPlayer, PlaylistMaker _playlistMaker)
         {
             this._musicPlayer = _musicPlayer;
             this._musicPlayer.AddDummyData();
+            this._playlistMaker = _playlistMaker;
         }
 
 
@@ -44,7 +46,7 @@ namespace Music_playlist.Application
                         Run();
                         break;
                     case 2:
-                        _musicPlayer.CreatePlaylist();
+                        _playlistMaker.Run();
                         Run();
                         break;
                     case 3:
@@ -70,7 +72,7 @@ namespace Music_playlist.Application
         {
             menuBuilder.AppendLine($"Welcome to {_musicPlayer.AppName}. Choose an option");
             menuBuilder.AppendLine("1. Show all Music");
-            menuBuilder.AppendLine("2. Make Playlist");
+            menuBuilder.AppendLine("2. Playlist Maker");
             menuBuilder.AppendLine("3. Shuffle");
             menuBuilder.AppendLine("4. Quit");
 
@@ -78,18 +80,6 @@ namespace Music_playlist.Application
             menuBuilder.Clear();
         }
 
-        void PrintPlaylistMenu()
-        {
-            menuBuilder.AppendLine($"Welcome to our Playlist Maker");
-            menuBuilder.AppendLine("1. Create Playlist");
-            menuBuilder.AppendLine("2. View All Playlist");
-            menuBuilder.AppendLine("3. Delete Playlist");
-            menuBuilder.AppendLine("4. Main Menu");
-            menuBuilder.AppendLine("5. Quit");
-
-            Console.WriteLine(menuBuilder.ToString());
-            menuBuilder.Clear();
-        }
 
         void PrintMusic(List<Music> musicList)
         {

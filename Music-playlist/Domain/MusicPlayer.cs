@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Music_playlist.Domain
 {
+
     public class MusicPlayer
     {
-        public List<Music> MusicList { get; set; } = new List<Music>();
+        public static List<Music> MusicList { get; set; } = new List<Music>();
 
-        protected Dictionary<string, Playlist> PlaylistDictionary = new Dictionary<string, Playlist>();
+        public static Dictionary<string, Playlist> PlaylistDictionary = new Dictionary<string, Playlist>();
 
         public string AppName { get; set; } = "Simple Music Player";
 
@@ -86,102 +87,6 @@ namespace Music_playlist.Domain
             };
 
             MusicList.AddRange(music2Add);
-        }
-
-        public void CreatePlaylist()
-        {
-            Console.WriteLine("Enter prefered playlist name");
-            var playlistName = Console.ReadLine();
-            Console.WriteLine();
-
-            while (string.IsNullOrWhiteSpace(playlistName))
-            {
-                Console.WriteLine("Playlist name cannot be null or empty space");
-                Console.WriteLine("Enter prefered playlist name");
-                playlistName = Console.ReadLine();
-            }
-
-
-            while (PlaylistDictionary.ContainsKey(playlistName))
-            {
-                Console.WriteLine($"Playlist with name: {playlistName} exits. Try another!!!");
-                playlistName = Console.ReadLine();
-            }
-
-            var newPlaylist = new Playlist
-            {
-                PlaylistName = playlistName,
-                PlaylistSongs = SelectedPlaylistSongs()
-            };
-
-            PlaylistDictionary.Add(playlistName, newPlaylist);
-
-            Console.WriteLine($"{playlistName} playlist created");
-            Console.WriteLine();
-
-            return;
-
-
-        }
-
-        private List<Music> SelectedPlaylistSongs()
-        {
-
-
-            var availableSongs = AllMusics();
-            var playlist = new List<Music>();
-
-
-            DataEnry:
-                Console.WriteLine("Choose number corresponding to music you'd like to add to playlist and press Enter key to add \n" +
-                "Press q to quit\n");
-
-            ShowMusic();
-
-            var choice = Console.ReadLine();
-            Console.WriteLine();
-
-            if (string.IsNullOrWhiteSpace(choice)) goto DataEnry;
-
-            while (!string.IsNullOrWhiteSpace(choice))
-            {
-
-                if (choice == "q") return playlist;
-
-                if (!int.TryParse(choice, out _))
-                {
-                    Console.WriteLine("Choose a number corresponding to music and press Enter key.");
-                    Console.WriteLine();
-                    goto DataEnry;
-                }
-
-                var numberChoice = int.Parse(choice);
-
-
-                playlist.Add(availableSongs[numberChoice]);
-                Console.WriteLine("Music added");
-
-                Console.WriteLine();
-                availableSongs.RemoveAt(numberChoice);
-
-                goto DataEnry;
-            }
-
-            return null;
-
-
-
-            void ShowMusic()
-            {
-                int counter = 0;
-                foreach (var songs in availableSongs)
-                {
-                    Console.WriteLine($"{counter}. {songs.Title}");
-                    counter++;
-                }
-
-                Console.WriteLine();
-            }
         }
 
         public void PlaylistLength()
